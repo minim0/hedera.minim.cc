@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script src="./assets/minim_css.js"></script>
+  <script src="./assets/hedera_minim_helper.js"></script>
+  <script src="./assets/hedera_minim.js"></script>
+  <link rel="stylesheet" href="./assets/minim.css">
+  <link rel="shortcut icon" href="./assets/minim.png" type="image/x-icon">
+  <title>minim Hedera - Simple Hedera Explorer</title>
+</head>
+<body>
+  <header>
+    <div class="hbox">
+      <span class="htitle" onclick='location.href = "./"'>[ℏ] minim</span>
+    </div>
+    <div class="hbox">
+      <span class="hicon" onclick="goDark()">☀</span>
+    </div>
+  </header>
+  <div class="searchbox" id="searchBox">
+    <input type="text" name="sInput" id="sInput" placeholder="search something...">
+    <button class="rad0" onclick="newSearch()">SEARCH</button>
+  </div>
+
+  <div class="box" id="networkStatDiv">
+    <div class="boxheader">
+      <span class="boxt" id="netStaT">Network Stats</span>
+      <span class="boxb" id="netStaB" onclick="fNetSta()">▶</span>
+    </div>
+    <h2>Last 100 Blocks Stats</h2>
+    <table>
+      <tr>
+        <td>Blocks</td>
+        <td class="tar" id="l100Bk"></td>
+      </tr>
+      <tr>
+        <td>Txs/block</td>
+        <td class="tar" id="l100Tx"></td>
+      </tr>
+      <tr>
+        <td>Gas/block</td>
+        <td class="tar" id="l100Gs"></td>
+      </tr>
+      <tr>
+        <td>Time/block</td>
+        <td class="tar" id="l100Tm"></td>
+      </tr>
+    </table><hr>
+    <h2>Released Supply: <span id="relSupPer"></span></h2>
+    <table>
+      <tr>
+        <td>Released</td>
+        <td class="tar" id="relSup"></td>
+      </tr>
+      <tr>
+          <td>Total</td>
+          <td class="tar" id="totSup"></td>
+      </tr>
+    </table><hr>
+    <h2>Staked: <span id="totStk"></span></h2>
+    <table>
+      <tr>
+        <td>Next Reward</td>
+        <td class="tar" id="rewTime"></td>
+      </tr>
+      <tr>
+          <td>Reward {approx.}</td>
+          <td class="tar" id="rewPer"></td>
+      </tr>
+    </table>
+  </div>
+  <div class="box" id="lastTransferDiv">
+    <div class="boxheader">
+      <span class="boxt" id="lCrTfT">Crypto Transfer:</span>
+      <span class="boxb" id="lCrTfB" onclick="gTxn()">▶</span>
+    </div>
+    <div id="lastTransfers">
+
+    </div>
+
+  </div>
+
+
+  <footer>
+    <a href=""><h1>minim.cc</h1></a>
+    <a href="">github↗</a> 
+    <a href="">donate↗</a>
+  </footer>
+
+  <script>
+    fBkC();
+  </script>
+</body>
+</html>
