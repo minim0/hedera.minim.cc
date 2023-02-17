@@ -10,13 +10,15 @@
   <script src="./assets/hedera_minim.js"></script>
   <link rel="stylesheet" href="./assets/minim.css">
   <link rel="shortcut icon" href="./assets/minim.png" type="image/x-icon">
-  <title>minim Hedera - Simple Hedera Explorer</title>
+  <title>minim - Simple Explorer</title>
 </head>
 <body>
   <header>
     <div class="hbox">
-      <span class="htitle" onclick='location.href = "./"'>[ℏ] minim</span>
+      <span class="htitle" onclick='location.href = "./"'>[H]</span>
+      <span class="htitle">$0.0085745</span>
     </div>
+
     <div class="hbox">
       <span class="hicon" onclick="goDark()">☀</span>
     </div>
@@ -73,16 +75,26 @@
       </tr>
     </table>
   </div>
+
+  <div class="box" id="lastBlockDiv">
+    <div class="boxheader">
+      <span class="boxt" id="lBkT">Last Blocks</span>
+      <span class="boxb" id="lBkB" onclick="gBlk('5')">▶</span>
+    </div>
+    <div id="lastBlocks">
+    </div>
+  </div>
+
   <div class="box" id="lastTransferDiv">
     <div class="boxheader">
       <span class="boxt" id="lCrTfT">Crypto Transfer:</span>
       <span class="boxb" id="lCrTfB" onclick="gTxn()">▶</span>
     </div>
     <div id="lastTransfers">
-
     </div>
-
   </div>
+
+
 
 
   <footer>

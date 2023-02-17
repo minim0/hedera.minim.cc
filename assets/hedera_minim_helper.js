@@ -10,7 +10,7 @@ const bTxT = 'transactions?limit=10&order=desc&transactiontype=CRYPTOTRANSFER'; 
 
 const gAc0 = 'accounts?limit=5&order=desc'; // just input the address
 
-const gBkC = 'blocks?limit=100&order=desc'; // look for last 100 blocks
+const gBkC = 'blocks?order=desc&limit='; // look for last 100 blocks
 const gNtC = 'network/'; // look for current Network data
 const gTk0 = 'tokens/'; // look for single token
 

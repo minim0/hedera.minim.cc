@@ -3,9 +3,9 @@
   --fg0: #111111;
   --ac0: #ACACAC;
   --ac1: #000000;
-  --red: #EB5353;
-  --grn: #36AE7C;
-  --ylw: #F9D923;
+  --red: #ff5722;
+  --grn: #4CAF50;
+  --ylw: #ffeb3b;
 }
 .dark {
   --bg0: #111111;
@@ -16,6 +16,9 @@
 * {
   box-sizing: border-box;
   font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
 }
 
 /* box box box */
@@ -61,7 +64,8 @@ p,small {
 h1::before{
   content: "#";
 }
-p{font-size: 16px;line-height: 1.4;}
+
+p{font-size: 14px;line-height: 1.2;}
 small{font-size: 14px;line-height: 1;}
 hr{
   display: block;
@@ -154,7 +158,7 @@ header {
   height: 20px;
   padding: 0;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
 }
 .boxb {
@@ -214,8 +218,8 @@ header {
   margin: 0 ;
   padding: 0;
   font-size: 14px;
-  font-weight: 500;
-  line-height: 1.2;
+  font-weight: 400;
+  line-height: 1;
 }
 .tbox:last-child{border-bottom: 0;}
 
@@ -227,7 +231,7 @@ footer {
   background-color: var(--fg0);
   color: var(--bg0);
   text-align: center;
-  padding: 10px 0;
+  padding: 20px 0;
   font-size: 20px;
   font-weight: 400;
 }
@@ -242,28 +246,24 @@ footer > a {
 }
 }
 
-.w100{
-  width: 100%;
-}
 .tar {text-align: right;}
 .tac {text-align: center;}
 
 table {
   width: 100%;
-  margin: 5px auto 0 auto;
+  margin: 0 auto;
   border: none;
   border-spacing: 0;
 }
 td{
   word-break: break-all;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.2;
 }
 @media(max-width: 400px) {
   td {
     font-size: 12px;
-    line-height: 1.2;
   }
   small{
     font-size: 12px;

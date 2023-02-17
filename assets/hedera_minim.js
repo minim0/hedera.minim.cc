@@ -1,22 +1,22 @@
 // fetch Block Data
 async function fBkC(){
   document.getElementById('netStaB').style.color = "var(--red)";
-  ntSt();
+  ntSt('100');
   gSup();
   gStk();
   gTxn();
-  //wBks();
+  gBlk('5');
 };
 
 async function fNetSta(){
   document.getElementById('netStaB').style.color = "var(--red)";
-  ntSt();
+  ntSt('100');
   gSup();
   gStk();
 }
 //get Network data
-async function ntSt(dt){
-  fRs = await fetch(bUrl+gBkC);
+async function ntSt(lmt){
+  fRs = await fetch(bUrl+gBkC+lmt);
   fDt = await fRs.json();
   dt = await fDt.blocks;
   let bk00 = dt[0].number;
@@ -70,17 +70,48 @@ async function gStk(){
   document.getElementById('netStaB').style.color = "var(--fg0)";
 };
 
+// Blocks
+async function gBlk(lmt){
+  document.getElementById('lBkB').style.color = "var(--red)";
+  document.getElementById('lastBlocks').innerHTML = "";
+  fRs = await fetch(bUrl+gBkC+lmt);
+  fDt = await fRs.json();
+  wBks(await fDt.blocks);
+}
+
+async function wBks(dt){
+  console.log(dt);
+  for (let i = 0; i < dt.length; i++) {
+    bId = dt[i].number;
+    
+    
+    // Write to HTML //
+    nDiv = document.createElement('div');
+    nDiv.setAttribute("id",bId);
+    document.getElementById('lastBlocks').appendChild(nDiv);
+    document.getElementById(bId).innerHTML =
+    '<div class="tbox"><span class="imp">NO '+bId+'</span><span class="tar">['+await cvTm(dt[i].timestamp.to)+']</span></div>'+
+    '<table><tbody id="'+bId+'tbl"></tbody></table><hr>';
+    
+    nRow0= document.createElement('tr');
+    nRow0.setAttribute("id",bId+'tr0');
+    document.getElementById(bId+'tbl').appendChild(nRow0);
+
+    document.getElementById(bId+'tr0').innerHTML=
+    '<td>Tx: '+dt[i].count+'</td><td class="tar">Gas: '+(dt[i].gas_used/100000000).toFixed(8)+' ℏ</td></tr>'
+  };
+  document.getElementById('lBkB').style.color = "var(--fg0)";
+}
 
 
-// Transactions Function 
-
+// Transactions 
 async function gTxn(){
   document.getElementById('lCrTfB').style.color = "var(--red)";
   document.getElementById('lastTransfers').innerHTML = "";
   fRs = await fetch(bUrl+bTxT);
   fDt = await fRs.json();
   console.log(fDt.transactions);
-  wTxn(await fDt.transactions)
+  wTxn(await fDt.transactions);
 };
 
 
@@ -97,11 +128,11 @@ async function wTxn(dt){
     let tfDt=[];
     if(dt[i].token_transfers){
       for (let tk = 0; tk < dt[i].token_transfers.length; tk++){
-        tTp='Token Transfer '+'[T ID: '+dt[i].token_transfers[tk].token_id+']'
+        tTp='Token Transfer '+'[ID: '+dt[i].token_transfers[tk].token_id+']'
         tfDt.push([
           dt[i].token_transfers[tk].account,
           (dt[i].token_transfers[tk].amount).toFixed(8),
-          "[T]"
+          "T"
         ])};
       } else {
         tTp="HBAR Transfer"
@@ -109,18 +140,18 @@ async function wTxn(dt){
         tfDt.push([
           dt[i].transfers[tk].account,
           (dt[i].transfers[tk].amount/100000000).toFixed(8),
-          "[ℏ]"
+          "ℏ"
         ])};
       };
     
     // Write to HTML //
     nDiv = document.createElement('div');
     nDiv.setAttribute("id",tId);
-    
     document.getElementById('lastTransfers').appendChild(nDiv);
     document.getElementById(tId).innerHTML =
     '<div class="tbox imp"><span>TX '+tId+'</span><span class="tar">'+tSt+'</span></div>'+
-    '<table class="w100"><tbody id="'+tId+'tx"></tbody></table>'+
+    '<div class="tbox"><span>'+tTp+'</span></div>'+
+    '<table><tbody id="'+tId+'tx"></tbody></table>'+
     '<div><small>'+tStDt+' ['+await cvTm(dt[i].consensus_timestamp)+']</small></div><hr>';
     await cTf(tId,tfDt);  
   };
@@ -131,14 +162,12 @@ async function cTf(tId,tfDt){
     if(tfDt[k]){
       nRow = document.createElement('tr');
       nRow.setAttribute("id",tId+'tx'+tfDt[k]);
-      nRow.setAttribute("class","w100");
       document.getElementById(tId+'tx').appendChild(nRow);
       document.getElementById(tId+'tx'+tfDt[k]).innerHTML=
-        '<td>'+tfDt[k][0]+'</a></td><td class="tar">'+tfDt[k][1]+'</td><td class="tar">'+tfDt[k][2]+'</td>';
+        '<td>'+tfDt[k][0]+'</a></td><td class="tar">'+tfDt[k][1]+' '+tfDt[k][2]+'</td>';
     } else {
       nRow = document.createElement('tr');
       nRow.setAttribute("id",tId+'failed');
-      nRow.setAttribute("class","w100");
       document.getElementById(tId+'tx').appendChild(nRow);
       document.getElementById(tId+'tx'+tfDt[k]).innerHTML=
         '<td>'+'as'+'</td>';
@@ -152,55 +181,3 @@ async function cTf(tId,tfDt){
   document.getElementById('lCrTfB').style.color = "var(--fg0)";
 };
 
-
-/*
-async function wTxn(dt){
-  for (let i = 0; i < dt.length; i++) {
-    if(dt[i].result === 'SUCCESS'){
-      tSt = '<span class="sccs">v</span>'
-    } else {
-      tSt = '<span class="fail">x</span>'
-    }
-    tId = await dt[i].transaction_id;
-    let tfDt=[];
-    if(dt[i].token_transfers){
-      for (let tk = 0; tk < dt[i].token_transfers.length; tk++){
-        tTp='Token Transfer '+'[T ID: '+dt[i].token_transfers[tk].token_id+']'
-        tfDt.push([
-          dt[i].token_transfers[tk].account,
-          (dt[i].token_transfers[tk].amount).toFixed(8),
-          "[T]"
-        ])};
-      } else {
-        tTp="HBAR Transfer"
-        for (let tk = 0; tk < dt[i].transfers.length; tk++){
-        tfDt.push([
-          dt[i].transfers[tk].account,
-          (dt[i].transfers[tk].amount/100000000).toFixed(8),
-          "[ℏ]"
-        ])};
-      };
-    await wTxID(tId,tSt,tfDt);
-  };
-};
-async function wTxID(tId,tSt,tfDt){
-  // Write to HTML //
-  nDiv0=document.createElement('div');
-  nDiv0.setAttribute("id",tId+'0');
-  nDiv0.setAttribute("class",'tbox');
-  document.getElementById('lastTransfers').appendChild(await nDiv0);
-  document.getElementById(await tId+'0').innerHTML =
-    '<div> ID: '+tId+'</div>'+
-    '<div class="tar">['+tSt+']</div>';
-  await cTf(tId,tfDt);
-};
-async function cTf(tId,tfDt){
-  for (let k = 0; k < tfDt.length; k++) {
-    nRow = document.createElement('tr');
-    nRow.setAttribute("id",tId+'tx'+tfDt[k]);
-    document.getElementById(tId+'tx').appendChild(nRow);
-    document.getElementById(tId+'tx'+tfDt[k]).innerHTML=
-      '<td><a href="./ac?'+tfDt[k][0]+'">'+tfDt[k][0]+'</a></td><td class="tar">'+tfDt[k][1]+'</td><td class="tar">'+tfDt[k][2]+'</td>'
-  };
-};
-*/
