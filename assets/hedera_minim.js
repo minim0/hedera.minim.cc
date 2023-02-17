@@ -9,6 +9,7 @@ async function fBkC(){
 };
 
 async function fNetSta(){
+  document.getElementById('netStaB').style.color = "var(--red)";
   ntSt();
   gSup();
   gStk();
@@ -74,8 +75,8 @@ async function gStk(){
 // Transactions Function 
 
 async function gTxn(){
-  document.getElementById('lastTransfers').innerHTML = "";
   document.getElementById('lCrTfB').style.color = "var(--red)";
+  document.getElementById('lastTransfers').innerHTML = "";
   fRs = await fetch(bUrl+bTxT);
   fDt = await fRs.json();
   console.log(fDt.transactions);
@@ -115,6 +116,7 @@ async function wTxn(dt){
     // Write to HTML //
     nDiv = document.createElement('div');
     nDiv.setAttribute("id",tId);
+    
     document.getElementById('lastTransfers').appendChild(nDiv);
     document.getElementById(tId).innerHTML =
     '<div class="tbox imp"><span>TX '+tId+'</span><span class="tar">'+tSt+'</span></div>'+
