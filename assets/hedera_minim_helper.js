@@ -6,7 +6,7 @@ const sBk0 = 'blocks/' // look for single block
 
 const bTx0 = 'transactions?'; // base URL for transactions
 const bTxA = 'limit=10&order=desc&account.id=' // look for transactions from account ID
-const bTxT = 'transactions?limit=100&order=desc&transactiontype=CRYPTOTRANSFER'; // look for crypto transfer transactions
+const bTxT = 'transactions?limit=10&order=desc&transactiontype=CRYPTOTRANSFER'; // look for crypto transfer transactions
 
 const gAc0 = 'accounts?limit=5&order=desc'; // just input the address
 
