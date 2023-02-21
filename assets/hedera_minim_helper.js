@@ -6,7 +6,7 @@ const sBk0 = 'blocks/' // look for single block
 
 const bTx0 = 'transactions?'; // base URL for transactions
 const bTxA = 'limit=10&order=desc&account.id=' // look for transactions from account ID
-const bTxT = 'transactions?limit=10&order=desc&transactiontype=CRYPTOTRANSFER'; // look for crypto transfer transactions
+const bTxT = 'transactions?limit=5&order=desc&transactiontype=CRYPTOTRANSFER'; // look for crypto transfer transactions
 
 const gAc0 = 'accounts?limit=5&order=desc'; // just input the address
 
@@ -85,3 +85,10 @@ async function isTx(nTx){
   }
 };
 //--------------------------------------------//
+
+async function gPrice(){
+  fRs = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=hedera-hashgraph&vs_currencies=usd");
+  fDt = await fRs.json();
+  console.log(fDt)
+  document.getElementById("cPrice").innerHTML= "$"+await (fDt['hedera-hashgraph'].usd).toFixed(5);
+}

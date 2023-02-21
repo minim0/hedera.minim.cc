@@ -58,12 +58,13 @@ async function gSup(){
 async function gStk(){
   fRs = await fetch(bUrl+gNtC+'stake');
   fDt = await fRs.json();
+  console.log(fDt)
   tNow = Date.now();
   tSt = fDt.staking_period.to-((tNow/1000).toFixed(0))
   document.getElementById("totStk").innerHTML =
-    (await tToH(fDt.stake_total)).toLocaleString('en-US', {maximumFractionDigits:0})+"ℏ";
+    (await tToH(fDt.stake_total)).toLocaleString('en-US', {maximumFractionDigits:0})+" ℏ";
   document.getElementById("rewPer").innerHTML =
-    ((fDt.max_staking_reward_rate_per_hbar/100000000)*365*100).toFixed(2)+'% APY';
+    ((fDt.max_staking_reward_rate_per_hbar/100000000)*365*100).toFixed(2)+'%';
     // (await tToH(fDt.max_staking_reward_rate_per_hbar)).toLocaleString('en-US', {maximumFractionDigits:8})+"ℏ/1ℏ";
   nxRw = await cdTm(tSt);
   document.getElementById("rewTime").innerHTML = await nxRw;
@@ -90,7 +91,7 @@ async function wBks(dt){
     nDiv.setAttribute("id",bId);
     document.getElementById('lastBlocks').appendChild(nDiv);
     document.getElementById(bId).innerHTML =
-    '<div class="tbox"><span class="imp">NO '+bId+'</span><span class="tar">['+await cvTm(dt[i].timestamp.to)+']</span></div>'+
+    '<div class="tbox"><a href="./block?'+bId+'"><span class="imp">No '+bId+'</span></a><span class="tar">'+await cvTm(dt[i].timestamp.to)+'</span></div>'+
     '<table><tbody id="'+bId+'tbl"></tbody></table><hr>';
     
     nRow0= document.createElement('tr');
@@ -98,7 +99,7 @@ async function wBks(dt){
     document.getElementById(bId+'tbl').appendChild(nRow0);
 
     document.getElementById(bId+'tr0').innerHTML=
-    '<td>Tx: '+dt[i].count+'</td><td class="tar">Gas: '+(dt[i].gas_used/100000000).toFixed(8)+' ℏ</td></tr>'
+    '<td>Transactions: '+dt[i].count+'</td><td class="tar">Gas: '+(dt[i].gas_used/100000000).toFixed(8)+' ℏ</td></tr>'
   };
   document.getElementById('lBkB').style.color = "var(--fg0)";
 }
@@ -125,6 +126,7 @@ async function wTxn(dt){
       tStDt = '<span class="sccs">'+dt[i].result+'</span>' ;
     }
     tId = dt[i].transaction_id;
+
     let tfDt=[];
     if(dt[i].token_transfers){
       for (let tk = 0; tk < dt[i].token_transfers.length; tk++){
@@ -144,12 +146,14 @@ async function wTxn(dt){
         ])};
       };
     
+      //<a href="./block?'+bId+'"><span class="imp">No '+bId+'</span></a>
+
     // Write to HTML //
     nDiv = document.createElement('div');
     nDiv.setAttribute("id",tId);
     document.getElementById('lastTransfers').appendChild(nDiv);
     document.getElementById(tId).innerHTML =
-    '<div class="tbox imp"><span>TX '+tId+'</span><span class="tar">'+tSt+'</span></div>'+
+    '<div class="tbox"><a href="./tx?'+tId+'"><span class="imp">TX '+tId+'</span></a><span class="tar">'+tSt+'</span></div>'+
     '<div class="tbox"><span>'+tTp+'</span></div>'+
     '<table><tbody id="'+tId+'tx"></tbody></table>'+
     '<div><small>'+tStDt+' ['+await cvTm(dt[i].consensus_timestamp)+']</small></div><hr>';
