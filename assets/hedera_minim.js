@@ -33,7 +33,7 @@ async function ntSt(lmt){
     txTt = txAr.reduce((a, b) => a + b, 0); // calculate average transaction per block
     gsTt = gsAr.reduce((a, b) => a + b, 0); // calculate average gas per block
     tmTt = tmAr.reduce((a, b) => a + b, 0); // calculate average time per block
-    document.getElementById('l100Bk').innerHTML= bk00 +' ⇴ ' + bk99; // write tx data to html
+    document.getElementById('l100Bk').innerHTML= bk99 +'-' + bk00; // write tx data to html
     document.getElementById('l100Tx').innerHTML= (txTt/100).toFixed(0)+' x'; // write tx data to html
     document.getElementById('l100Gs').innerHTML= (gsTt/100/100000000).toFixed(8)+' ℏ';  // write gas data to html
     document.getElementById('l100Tm').innerHTML= (tmTt/100).toFixed(8)+' s';  // write time data to html
@@ -91,7 +91,7 @@ async function wBks(dt){
     nDiv.setAttribute("id",bId);
     document.getElementById('lastBlocks').appendChild(nDiv);
     document.getElementById(bId).innerHTML =
-    '<div class="tbox"><a href="./block?'+bId+'"><span class="imp">No '+bId+'</span></a><span class="tar">'+await cvTm(dt[i].timestamp.to)+'</span></div>'+
+    '<div class="tbox"><a href="./block?'+bId+'"><span class="imp">'+bId+'</span></a><span class="tar">'+await cvTm(dt[i].timestamp.to)+'</span></div>'+
     '<table><tbody id="'+bId+'tbl"></tbody></table><hr>';
     
     nRow0= document.createElement('tr');
@@ -99,7 +99,7 @@ async function wBks(dt){
     document.getElementById(bId+'tbl').appendChild(nRow0);
 
     document.getElementById(bId+'tr0').innerHTML=
-    '<td>Transactions: '+dt[i].count+'</td><td class="tar">Gas: '+(dt[i].gas_used/100000000).toFixed(8)+' ℏ</td></tr>'
+    '<td>Txs: '+dt[i].count+'</td><td class="tar">Gas: '+(dt[i].gas_used/100000000).toFixed(8)+' ℏ</td></tr>'
   };
   document.getElementById('lBkB').style.color = "var(--fg0)";
 }
@@ -153,13 +153,71 @@ async function wTxn(dt){
     nDiv.setAttribute("id",tId);
     document.getElementById('lastTransfers').appendChild(nDiv);
     document.getElementById(tId).innerHTML =
-    '<div class="tbox"><a href="./tx?'+tId+'"><span class="imp">TX '+tId+'</span></a><span class="tar">'+tSt+'</span></div>'+
+    '<div class="tbox"><a href="./tx?'+tId+'"><span class="imp">Tx: '+tId+'</span></a></div>'+
     '<div class="tbox"><span>'+tTp+'</span></div>'+
     '<table><tbody id="'+tId+'tx"></tbody></table>'+
-    '<div><small>'+tStDt+' ['+await cvTm(dt[i].consensus_timestamp)+']</small></div><hr>';
+    '<div><small>'+tStDt+' at '+await cvTm(dt[i].consensus_timestamp)+'</small></div><hr>';
     await cTf(tId,tfDt);  
   };
 };
+
+async function fCrtAcc(){
+  document.getElementById('crtAccBtn').style.color = "var(--red)";
+  document.getElementById('crtAccDiv').innerHTML = "";
+  fRs = await fetch(bUrl+bTxC);
+  fDt = await fRs.json();
+  wCrtAcc(await fDt.transactions);
+};
+
+async function wCrtAcc(dt){
+  for (let i = 0; i < dt.length; i++) {
+    nAccTx = dt[i].transaction_id;
+    nAccId = dt[i].entity_id;
+    nAccTm = dt[i].consensus_timestamp;
+    
+    // Write to HTML //
+    nDiv = document.createElement('div');
+    nDiv.setAttribute("id",nAccId);
+    nDiv.setAttribute("class","tbox");
+    document.getElementById('crtAccDiv').appendChild(nDiv);
+    document.getElementById(nAccId).innerHTML =
+    '<span><a href="./account?'+nAccId+'">'+nAccId+'</a> created by '+await txSrc(nAccId)+'</span>'
+    
+  };
+  document.getElementById('crtAccBtn').style.color = "var(--fg0)";
+  fDelAcc();
+}
+
+async function fDelAcc(){
+  document.getElementById('delAccBtn').style.color = "var(--red)";
+  document.getElementById('delAccDiv').innerHTML = "";
+  fRs = await fetch(bUrl+bTxR);
+  fDt = await fRs.json();
+  console.log(fDt.transactions);
+  wDelAcc(await fDt.transactions);
+};
+
+async function wDelAcc(dt){
+  console.log(dt);
+  for (let i = 0; i < dt.length; i++) {
+    nAccTx = dt[i].transaction_id;
+    nAccId = dt[i].entity_id;
+    nAccTm = dt[i].consensus_timestamp;
+    
+    // Write to HTML //
+    nDiv = document.createElement('div');
+    nDiv.setAttribute("id",nAccId);
+    nDiv.setAttribute("class","tbox");
+    document.getElementById('delAccDiv').appendChild(nDiv);
+    document.getElementById(nAccId).innerHTML =
+    '<span><a href="./account?'+nAccId+'">'+nAccId+'</a> deleted to '+await txSrc(nAccId)+'</span>'
+    
+  };
+  document.getElementById('delAccBtn').style.color = "var(--fg0)";
+}
+
+
+
 
 async function cTf(tId,tfDt){
   for (let k = 0; k < tfDt.length; k++) {
@@ -168,7 +226,7 @@ async function cTf(tId,tfDt){
       nRow.setAttribute("id",tId+'tx'+tfDt[k]);
       document.getElementById(tId+'tx').appendChild(nRow);
       document.getElementById(tId+'tx'+tfDt[k]).innerHTML=
-        '<td>'+tfDt[k][0]+'</a></td><td class="tar">'+tfDt[k][1]+' '+tfDt[k][2]+'</td>';
+        '<td><a href="./account?'+tfDt[k][0]+'">'+tfDt[k][0]+'</a></td><td class="tar">'+tfDt[k][1]+' '+tfDt[k][2]+'</td>';
     } else {
       nRow = document.createElement('tr');
       nRow.setAttribute("id",tId+'failed');

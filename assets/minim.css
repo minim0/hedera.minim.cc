@@ -15,51 +15,54 @@
 }
 * {
   box-sizing: border-box;
-  font-family: 'JetBrains Mono', monospace;
-
+  font-family: 'Roboto Mono', monospace;
 }
 
 /* box box box */
 html {
-margin: 0;
-width: 100%;
-height: 100%;
-padding: 0;
-background-color: #000000;
-font-size: 15px;
-font-weight: 500;
-line-height: 1.2;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background-color: var(--ac0);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
 body {
   display: block;
   min-height: 100vh;
   width: 100%;
-  margin: auto;
-  padding: 0;
+  margin: 0 auto;
+  padding: 75px 0 0 0;
   background-color: var(--bg0);
   color: var(--fg0);
 }
 
-/*
-@media(min-width: 600px) {
-  body {
-      max-width: 600px;
-      margin: 0 auto;
-  }
-}
+
 
 /* header */
-header {
+nav {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
   display: grid;
   grid-template-columns: auto 74px;
   height: 74px;
-  width: 100%;
   margin: 0;
   padding: 10px;
   border: 0;
   background-color: var(--fg0);
   color: var(--bg0);
+}
+body, nav {
+  max-width: 1080px;
+}
+.topspace {
+  display: block;
+  margin: 70px 0;
 }
 .htbox {
   display: block;
@@ -94,7 +97,7 @@ header {
 .searchbox {
   display: grid;
   grid-template-columns: auto 80px 5px 70px;
-  margin: 10px 10px 0 10px;
+  margin: 10px;
   padding: 0;
   font-size: 15px;
   font-weight: 500;
@@ -118,7 +121,7 @@ header {
 }
 .card {
   display: block;
-  margin: 5px 10px 5px 10px;
+  margin: 0px 10px 10px 10px;
   padding: 5px;
   background-color: var(--bg0);
   color: var(--fg0);
@@ -126,7 +129,7 @@ header {
 }
 .cardl {
   display: block;
-  margin: 10px 5px 5px 10px;
+  margin: 0 5px 10px 10px;
   padding: 5px;
   background-color: var(--bg0);
   color: var(--fg0);
@@ -134,17 +137,26 @@ header {
 }
 .cardr {
   display: block;
-  margin: 10px 10px 5px 5px;
+  margin: 0 10px 10px 5px;
   padding: 5px;
   background-color: var(--bg0);
   color: var(--fg0);
   border: solid 1px var(--fg0);
 }
-@media(max-width: 640px) {
-  header {
+@media(min-width: 1080px) {
+  body {
+    outline: solid 10px var(--fg0);
+  }
+}
+
+@media(max-width: 760px) {
+  nav {
     grid-template-columns: auto 44px;
     height: 44px;
     padding: 5px;
+  }
+  .topspace {
+    margin: 8px 0;
   }
   .htbox {
     height: 34px;
@@ -164,7 +176,6 @@ header {
   }
   .searchbox {
     grid-template-columns: auto 70px 5px 60px;
-
   }
   .row {
     grid-template-columns: 100%;
@@ -286,6 +297,9 @@ footer > a::after{
   margin: 0 0 10px 0;
   padding: 0 0 5px 0;
   border-bottom: solid 1px var(--ac0);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
 }
 .boxt {
   display: block;
@@ -293,12 +307,10 @@ footer > a::after{
   width: 100%;
   height: 20px;
   padding: 0;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1;
 }
 .boxb {
   cursor: pointer;
+  font-weight: 700;
 }
 
 /* Box Box Box */
@@ -316,7 +328,7 @@ footer > a::after{
 .tbox {
   display: grid;
   grid-template-columns: auto auto;
-  margin: 0 ;
+  margin: 0 0 5px 0;
   padding: 0;
   font-size: 14px;
   font-weight: 400;
@@ -327,7 +339,7 @@ footer > a::after{
 
 /* Footer */
 footer {
-  margin: 20px auto 0 auto;
+  margin: 10px auto 0 auto;
   width: 100%;
   background-color: var(--fg0);
   color: var(--bg0);
